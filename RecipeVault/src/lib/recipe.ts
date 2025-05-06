@@ -3,5 +3,9 @@ import { query } from "@solidjs/router";
 
 export const getRecipes = query(async () => {
   'use server'
-  return await db.recipe.findMany()
+  const recipes = await db.recipe.findMany({
+    include: {
+      ingredients: true,
+    },
+  })
 }, 'getRecipes')

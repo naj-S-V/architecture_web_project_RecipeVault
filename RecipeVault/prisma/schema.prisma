@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -23,7 +22,16 @@ model User {
 model Recipe {
   id          Int      @id @default(autoincrement())
   title       String
-  duration    Int      
-  ingredients Json
+  duration    Int
   steps       Json
+  ingredients Ingredient[]
+}
+
+model Ingredient {
+  id          Int      @id @default(autoincrement())
+  name        String
+  quantity    Float
+  unit        String
+  recipeId    Int
+  recipe      Recipe   @relation(fields: [recipeId], references: [id])
 }
