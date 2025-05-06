@@ -52,3 +52,12 @@ vite.config.ts.timestamp*
 
 # ignore cypress screenshots
 **/cypress/screenshots
+
+# prisma 
+prisma/.env
+prisma/migrations/
+prisma/dev.db
+prisma/dev.db-journal
+prisma/*.log
+prisma/seed.ts
+src/generated/
