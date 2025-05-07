@@ -8,4 +8,24 @@ export const getRecipes = query(async () => {
       ingredients: true,
     },
   })
+  return recipes;
 }, 'getRecipes')
+
+export const getRecipesWithIngredients = query(async (ingredients: string[]) => {
+  'use server'
+  const recipes = await db.recipe.findMany({
+    where: {
+      ingredients: {
+        some: {
+          name: {
+            in: ingredients,
+          },
+        },
+      },
+    },
+    include: {
+      ingredients: true,
+    },
+  })
+  return recipes;
+}, 'getRecipesWithIngredients')
