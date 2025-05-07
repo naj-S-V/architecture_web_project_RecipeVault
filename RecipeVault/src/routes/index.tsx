@@ -1,10 +1,10 @@
 import { createSignal, createResource, Show } from "solid-js";
 import RecipeBox from "../components/RecipeBox";
 import { getRecipesWithIngredients } from "../lib/recipe";
+import { ingredientsList, setIngredientsList } from "../lib/store";
 
 export default function Home() {
   const [ingredientInput, setIngredientInput] = createSignal(""); // Stocke la valeur de l'input
-  const [ingredientsList, setIngredientsList] = createSignal<string[]>([]); // Liste des ingrédients ajoutés
 
   // Ajouter un ingrédient à la liste
   const addIngredient = () => {
@@ -17,7 +17,7 @@ export default function Home() {
 
   const removeAllIngredients = () => {
     setIngredientsList([]); // Réinitialise la liste des ingrédients
-  }
+  };
 
   const [recipes] = createResource(ingredientsList, async (ingredients) => {
     if (ingredients.length === 0) return []; // Si aucun ingrédient, retourner une liste vide
@@ -45,23 +45,19 @@ export default function Home() {
         >
           Add
         </button>
-
       </div>
 
       <div class="my-4">
-
         <h2 class="text-lg font-semibold text-white">Ingredients List:</h2>
-
         <Show
           when={ingredientsList().length > 0}
-          fallback={<p class="text-gray-400">No ingredients added yet.</p>}>
-
+          fallback={<p class="text-gray-400">No ingredients added yet.</p>}
+        >
           <ul class="list-disc list-inside text-white">
             {ingredientsList().map((ingredient) => (
               <li>{ingredient}</li>
             ))}
           </ul>
-          
           <button
             class="bg-gray-600 text-white p-2 rounded mt-5"
             onClick={removeAllIngredients}
