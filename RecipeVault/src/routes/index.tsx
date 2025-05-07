@@ -63,10 +63,10 @@ export default function Home() {
           </ul>
           
           <button
-            class="bg-red-600 text-white p-2 rounded mt-5"
+            class="bg-gray-600 text-white p-2 rounded mt-5"
             onClick={removeAllIngredients}
           >
-            Remove alls
+            Remove ingredients
           </button>
         </Show>
       </div>
@@ -74,6 +74,7 @@ export default function Home() {
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {recipes()?.map((recipe) => (
           <RecipeBox
+            id={recipe.id}
             title={recipe.title}
             duration={recipe.duration}
             ingredients={recipe.ingredients.map((ingredient) => ingredient.name)} // Affiche les noms des ingrédients

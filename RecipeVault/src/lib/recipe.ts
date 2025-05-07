@@ -11,6 +11,19 @@ export const getRecipes = query(async () => {
   return recipes;
 }, 'getRecipes')
 
+export const getRecipeById = query(async (id: number) => {
+  'use server'
+  const recipe = await db.recipe.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      ingredients: true,
+    },
+  })
+  return recipe;
+}, 'getRecipeById')
+
 export const getRecipesWithIngredients = query(async (ingredients: string[]) => {
   'use server'
   const recipes = await db.recipe.findMany({
