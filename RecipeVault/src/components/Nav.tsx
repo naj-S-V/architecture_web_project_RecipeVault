@@ -13,7 +13,10 @@ export default function Nav() {
         <li class={`border-b-2 ${active("/recipes")} mx-1.5 sm:mx-6`}>
           <a href="/recipes">Recipes</a>
         </li>
+        <li class={`border-b-2 ${active("/admin/add-recipe")} mx-1.5 sm:mx-6`}>
+          <a href="/admin/add-recipe">Add recipe</a>
+        </li>
       </ul>
-    </nav>
+    </nav>  
   );
 }

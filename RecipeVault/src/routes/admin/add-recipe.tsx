@@ -2,7 +2,7 @@ import { createSignal } from "solid-js";
 import { useSubmission } from "@solidjs/router";
 import { addRecipeAction } from "~/lib/recipe";
 
-export default function Admin() {
+export default function AddRecipe() {
   const addingRecipe = useSubmission(addRecipeAction);
 
   // Signal pour stocker les ingrédients
