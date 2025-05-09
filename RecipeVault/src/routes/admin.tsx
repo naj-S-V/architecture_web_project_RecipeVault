@@ -10,6 +10,9 @@ export default function Admin() {
     { name: string; quantity: number; unit: string }[]
   >([]);
 
+  // Signal pour stocker les steps
+  const [steps, setSteps] = createSignal<string[]>([]);
+
   // Ajouter un ingrédient à la liste
   const addIngredient = (name: string, quantity: number, unit: string) => {
     setIngredients([...ingredients(), { name, quantity, unit }]);
@@ -18,6 +21,16 @@ export default function Admin() {
   // Supprimer un ingrédient de la liste
   const removeIngredient = (index: number) => {
     setIngredients(ingredients().filter((_, i) => i !== index));
+  };
+
+  // Ajouter une étape à la liste
+  const addStep = (step: string) => {
+    setSteps([...steps(), step]);
+  };
+
+  // Supprimer une étape de la liste
+  const removeStep = (index: number) => {
+    setSteps(steps().filter((_, i) => i !== index));
   };
 
   return (
@@ -31,12 +44,17 @@ export default function Admin() {
         method="post"
         action={addRecipeAction}
         onSubmit={(e) => {
-          // Avant l'envoi, transformer les ingrédients en JSON
+          // Avant l'envoi, transformer les ingrédients et les steps en JSON
           const form = e.currentTarget as HTMLFormElement;
           const ingredientsInput = form.querySelector(
             'input[name="ingredients"]'
           ) as HTMLInputElement;
+          const stepsInput = form.querySelector(
+            'input[name="steps"]'
+          ) as HTMLInputElement;
+
           ingredientsInput.value = JSON.stringify(ingredients());
+          stepsInput.value = JSON.stringify(steps());
         }}
       >
         {/* Titre de la recette */}
@@ -126,7 +144,7 @@ export default function Admin() {
           <ul class="list-disc list-inside text-left">
             {ingredients().map((ingredient, index) => (
               <li class="flex justify-between items-center">
-                <span>
+                <span class="text-gray-100">
                   {ingredient.name} - {ingredient.quantity} {ingredient.unit}
                 </span>
                 <button
@@ -145,12 +163,57 @@ export default function Admin() {
         <input type="hidden" name="ingredients" />
 
         {/* Étapes */}
-        <textarea
-          name="steps"
-          placeholder="Steps (comma-separated, e.g., Step 1, Step 2, Step 3)"
-          class="border bg-white p-2 rounded w-full"
-          required
-        ></textarea>
+        <div class="space-y-2">
+          <h2 class="text-lg text-white font-semibold">Steps</h2>
+          <div class="flex space-x-2">
+            <input
+              type="text"
+              placeholder="Step Description"
+              class="border bg-white p-2 rounded flex-1"
+              id="step-description"
+            />
+            <button
+              type="button"
+              class="bg-blue-600 text-white p-2 rounded"
+              onClick={() => {
+                const step = (
+                  document.getElementById("step-description") as HTMLInputElement
+                ).value;
+
+                if (step) {
+                  addStep(step);
+                  // Réinitialiser le champ
+                  (
+                    document.getElementById(
+                      "step-description"
+                    ) as HTMLInputElement
+                  ).value = "";
+                }
+              }}
+            >
+              Add
+            </button>
+          </div>
+
+          {/* Liste des steps */}
+          <ul class="list-disc list-inside text-left">
+            {steps().map((step, index) => (
+              <li class="flex justify-between items-center">
+                <span class="text-gray-100">{step}</span>
+                <button
+                  type="button"
+                  class="text-red-600"
+                  onClick={() => removeStep(index)}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Champ caché pour les steps */}
+        <input type="hidden" name="steps" />
 
         {/* Bouton pour soumettre */}
         <button
