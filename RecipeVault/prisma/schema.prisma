@@ -33,5 +33,5 @@ model Ingredient {
   quantity    Float
   unit        String
   recipeId    Int
-  recipe      Recipe   @relation(fields: [recipeId], references: [id])
+  recipe      Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 }

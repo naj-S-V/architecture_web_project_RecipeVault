@@ -74,3 +74,12 @@ export const getRecipesWithIngredients = query(async (ingredients: string[]) => 
   })
   return recipes;
 }, 'getRecipesWithIngredients')
+
+export const removeRecipe = async (form: FormData) => {
+  'use server';
+  const id = Number(form.get('id'));
+  return await db.recipe.delete({
+    where: { id }, 
+  });
+};
+export const removeRecipeAction = action(removeRecipe);
