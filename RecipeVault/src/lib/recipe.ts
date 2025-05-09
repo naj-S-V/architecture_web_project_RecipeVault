@@ -1,5 +1,37 @@
 import { db } from './db'
-import { query } from "@solidjs/router";
+import { query, action } from "@solidjs/router";
+import { z } from 'zod';
+
+const recipeSchema = z.object({
+  title: z.string(),
+  duration: z.coerce.number(),
+  ingredients: z.string().transform(val => {
+    return JSON.parse(val) as {name: string, quantity: number, unit: string}[]
+  }),
+  steps: z.string().transform(s => s.split(',')),
+});
+
+export const addRecipe = async (form: FormData) => {
+  'use server';
+
+  // Parse les données du formulaire
+  const recipe = recipeSchema.parse(Object.fromEntries(form.entries()));
+
+  // Insère la recette dans la base de données
+  return await db.recipe.create({
+    data: {
+      ...recipe,
+      ingredients: {
+        create: recipe.ingredients.map((ingredient) => ({
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+        })),
+      },
+    },
+  });
+};
+export const addRecipeAction = action(addRecipe)
 
 export const getRecipes = query(async () => {
   'use server'
