@@ -15,19 +15,18 @@ export const getUsers = query(async () => {
   return await db.user.findMany()
 }, 'getUsers')
 
-export const isConnectedUserAdmin = query(async (email: string) => {
-  'use server'
-  const user = await db.user.findUniqueOrThrow({
-    where: { email },
-  })
-  return user.isAdmin
-}, 'isUserAdmin')
-
-export const register = async (form: FormData) => {
+export const addUser = async (form: FormData) => {
   'use server'
 
   // Parse les données du formulaire
-  const user = userSchema.parse(Object.fromEntries(form.entries()));
+  const formData = Object.fromEntries(form.entries());
+  const newData = {
+    email: formData.email,
+    password: formData.password,
+    isAdmin : formData.isAdmin === "on" ? true : false,
+  }
+
+  const user = userSchema.parse(newData);
 
   // Hash le mot de passe
   user.password = await bcrypt.hash(user.password, 10);
@@ -35,7 +34,33 @@ export const register = async (form: FormData) => {
   // Insère l'utilisateur dans la base de données
   return db.user.create({ data: user });
 }
-export const registerAction = action(register)
+export const addUserAction = action(addUser)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------
+
+export const isConnectedUserAdmin = query(async (email: string) => {
+  'use server'
+  const user = await db.user.findUniqueOrThrow({
+    where: { email },
+  })
+  return user.isAdmin
+}, 'isUserAdmin')
 
 export const login = async (form: FormData) => {
   'use server'
