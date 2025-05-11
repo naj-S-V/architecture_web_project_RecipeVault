@@ -15,6 +15,14 @@ export const getUsers = query(async () => {
   return await db.user.findMany()
 }, 'getUsers')
 
+export const isConnectedUserAdmin = query(async (email: string) => {
+  'use server'
+  const user = await db.user.findUniqueOrThrow({
+    where: { email },
+  })
+  return user.isAdmin
+}, 'isUserAdmin')
+
 export const register = async (form: FormData) => {
   'use server'
 
@@ -32,7 +40,6 @@ export const registerAction = action(register)
 export const login = async (form: FormData) => {
   'use server'
 
-  // Parse les données du formulaire
   const { email, password } = userSchema.parse(Object.fromEntries(form.entries()));
 
   const record = await db.user.findUniqueOrThrow({ where: { email } })
@@ -40,10 +47,19 @@ export const login = async (form: FormData) => {
 
   if (loggedIn) {
     const session = await getSession();
-    session.update({ userEmail: email });
+    session.update({
+      userEmail: email,
+      isAdmin: record.isAdmin,
+    });
   }
 }
 export const loginAction = action(login)
+
+export const logout = async () => {
+  'use server'
+  const session = await getSession();
+  await session.clear();
+}
 
 export const getUserConnected = query(async () => {
   'use server'
@@ -52,9 +68,10 @@ export const getUserConnected = query(async () => {
     if (!session.data.userEmail) {
       return null
     }
-    return await db.user.findUniqueOrThrow({
-      where: { email: session.data.userEmail },
-    })
+    return {
+      email: session.data.userEmail,
+      isAdmin: session.data.isAdmin || false,
+    }
   } catch {
     return null
   }

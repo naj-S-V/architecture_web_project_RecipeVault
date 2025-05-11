@@ -37,7 +37,7 @@ export default function Home() {
         </For>
         <button
           type="submit"
-          class="bg-sky-600 text-white p-2 rounded mr-2"
+          class="bg-sky-600 hover:bg-sky-500 text-white p-2 rounded mr-2"
         >
           Add
         </button> 
@@ -55,7 +55,7 @@ export default function Home() {
             ))}
           </ul>
           <button
-            class="bg-gray-600 text-white p-2 rounded mt-5"
+            class="bg-gray-600 hover:bg-gray-500 text-white p-2 rounded mt-5"
           >
             Remove ingredients
           </button>

@@ -2,6 +2,7 @@ import { useSession } from "vinxi/http";
 
 type SessionData = {
     userEmail?: string;
+    isAdmin?: boolean;
 };
 
 export function getSession() {
