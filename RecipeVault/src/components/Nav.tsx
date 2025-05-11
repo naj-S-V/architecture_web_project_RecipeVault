@@ -30,11 +30,8 @@ export default function Nav() {
             <a href="/recipes">Recipes</a>
           </li>
           <Show when={isAdmin()}>
-            <li class={`border-b-2 ${active("/admin/add-recipe")} mx-1.5 sm:mx-6`}>
-              <a href="/admin/add-recipe">Add Recipe</a>
-            </li>
-            <li class={`border-b-2 ${active("/admin/remove-recipe")} mx-1.5 sm:mx-6`}>
-              <a href="/admin/remove-recipe">Remove Recipe</a>
+            <li class={`border-b-2 ${active("/admin/menu")} mx-1.5 sm:mx-6`}>
+              <a href="/admin/menu">Menu admin</a>
             </li>
           </Show>
         </div>
