@@ -32,7 +32,7 @@ export default function AdminMenu() {
 
         {/* Bouton pour aller à Update Recipe */}
         <button
-          class="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded"
+          class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded"
           onClick={() => navigate("/admin/update-recipe")}
         >
           Update Recipe
@@ -70,7 +70,7 @@ export default function AdminMenu() {
 
         {/* Bouton pour aller à Update User */}
         <button
-          class="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded"
+          class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded"
           onClick={() => navigate("/admin/user/update-user")}
         >
           Update User

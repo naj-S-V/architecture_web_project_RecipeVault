@@ -45,23 +45,71 @@ export const removeUser = async (form: FormData) => {
 }
 export const removeUserAction = action(removeUser)
 
+export const getUser = query(async (form: FormData) => {
+  'use server'
+  const {email} = userSchema.parse(Object.fromEntries(form.entries()));
+  return await db.user.findUniqueOrThrow({
+    where: { email },
+  })
+}, 'getUser')
+
 export const updateUser = async (form: FormData) => {
   'use server'
   const email = form.get('email') as string;
-  const newEmail = form.get('email') as string;
+  const newEmail = form.get('newEmail') as string;
   const newIsAdmin = form.get('isAdmin') === "on" ? true : false;
-  const newPassword = form.get('password') as string;
+  let newPassword = form.get('password') as string;
+  // Hash le mot de passe
+  if (newPassword) {
+    newPassword = await bcrypt.hash(newPassword, 10);
+  }
   
   // Met à jour l'utilisateur dans la base de données
   return db.user.update({
     where: { email },
     data: { 
-      email: newEmail,
-      isAdmin: newIsAdmin,
-      password: newPassword ? await bcrypt.hash(newPassword, 10) : undefined,
+      email: newEmail || undefined,
+      isAdmin: newIsAdmin || undefined,
+      password: newPassword || undefined,
      },
   });
 }
+export const updateUserAction = action(updateUser)
+
+export const updateUserEmail = async (form: FormData) => {
+  'use server'
+  const email = form.get('email') as string;
+  const newEmail = form.get('newEmail') as string;
+
+  return db.user.update({
+    where: { email },
+    data: { email: newEmail },
+  });
+}
+export const updateUserEmailAction = action(updateUserEmail)
+
+export const updateUserPassword = async (form: FormData) => {
+  'use server' 
+  const email = form.get('email') as string;
+  const newPassword = form.get('password') as string;
+
+  return db.user.update({
+    where: { email },
+    data: { password: await bcrypt.hash(newPassword, 10) },
+  });
+}
+export const updateUserPasswordAction = action(updateUserPassword)
+
+export const updateUserAdmin = async (form: FormData) => {
+  'use server'
+  const email = form.get('email') as string;
+  const newIsAdmin = form.get('isAdmin') === "on" ? true : false;
+  return db.user.update({
+    where: { email },
+    data: { isAdmin: newIsAdmin },
+  });
+}
+export const updateUserAdminAction = action(updateUserAdmin)
 
 
 
