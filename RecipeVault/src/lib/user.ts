@@ -36,6 +36,33 @@ export const addUser = async (form: FormData) => {
 }
 export const addUserAction = action(addUser)
 
+export const removeUser = async (form: FormData) => {
+  'use server'
+  const email = form.get('email') as string;
+
+  // Supprime l'utilisateur de la base de données
+  return db.user.delete({ where: { email } });
+}
+export const removeUserAction = action(removeUser)
+
+export const updateUser = async (form: FormData) => {
+  'use server'
+  const email = form.get('email') as string;
+  const newEmail = form.get('email') as string;
+  const newIsAdmin = form.get('isAdmin') === "on" ? true : false;
+  const newPassword = form.get('password') as string;
+  
+  // Met à jour l'utilisateur dans la base de données
+  return db.user.update({
+    where: { email },
+    data: { 
+      email: newEmail,
+      isAdmin: newIsAdmin,
+      password: newPassword ? await bcrypt.hash(newPassword, 10) : undefined,
+     },
+  });
+}
+
 
 
 

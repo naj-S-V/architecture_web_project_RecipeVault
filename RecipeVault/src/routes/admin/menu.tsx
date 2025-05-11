@@ -55,7 +55,7 @@ export default function AdminMenu() {
         {/* Bouton pour aller à Add User */}
         <button
           class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded mx-4"
-          onClick={() => navigate("/admin/add-user")}
+          onClick={() => navigate("/admin/user/add-user")}
         >
           Add User
         </button>
@@ -63,7 +63,7 @@ export default function AdminMenu() {
         {/* Bouton pour aller à Remove User */}
         <button
           class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded mx-4"
-          onClick={() => navigate("/admin/remove-user")}
+          onClick={() => navigate("/admin/user/remove-user")}
         >
           Remove User
         </button>
@@ -71,7 +71,7 @@ export default function AdminMenu() {
         {/* Bouton pour aller à Update User */}
         <button
           class="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={() => navigate("/admin/update-user")}
+          onClick={() => navigate("/admin/user/update-user")}
         >
           Update User
         </button>
@@ -79,7 +79,7 @@ export default function AdminMenu() {
         {/* Bouton pour aller à View Users */}
         <button
           class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={() => navigate("/admin/view-users")}
+          onClick={() => navigate("/admin/user/view-users")}
         >
           View Users
         </button>
