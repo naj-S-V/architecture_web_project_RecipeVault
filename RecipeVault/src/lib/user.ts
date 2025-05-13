@@ -160,6 +160,7 @@ export const logout = async () => {
   const session = await getSession();
   await session.clear();
 }
+export const logoutAction = action(logout)
 
 export const getUserConnected = query(async () => {
   'use server'
