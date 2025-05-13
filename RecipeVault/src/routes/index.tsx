@@ -1,9 +1,10 @@
 import { createSignal, createResource, Show, For } from "solid-js";
 import RecipeBox from "../components/RecipeBox";
 import { getRecipesWithIngredients } from "../lib/recipe";
-import { useSearchParams,createAsync } from "@solidjs/router";
+import { useSearchParams, createAsync, useNavigate } from "@solidjs/router";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams(); // Gère les paramètres de l'URL
 
   // Récupère les ingrédients depuis l'URL ou initialise une liste vide
@@ -40,7 +41,7 @@ export default function Home() {
           class="bg-sky-600 hover:bg-sky-500 text-white p-2 rounded mr-2"
         >
           Add
-        </button> 
+        </button>
       </form>
 
       <div class="my-4">
@@ -56,6 +57,7 @@ export default function Home() {
           </ul>
           <button
             class="bg-gray-600 hover:bg-gray-500 text-white p-2 rounded mt-5"
+            onClick={() => navigate("/")}
           >
             Remove ingredients
           </button>
