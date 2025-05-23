@@ -151,7 +151,9 @@ export const login = async (form: FormData) => {
       userEmail: email,
       isAdmin: record.isAdmin,
     });
+    return { success: true }
   }
+  return { success: false, error: 'Invalid email or password' }
 }
 export const loginAction = action(login)
 
